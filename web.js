@@ -51,9 +51,9 @@ mandrill_client.messages.sendTemplate({"template_name": template_name, "template
 
 
 app.get('/', function(req, res) {
-   sendEmail(res);
-  res.send('Hello World!s');
-  res.send("hsould nevre show up");
+   //sendEmail(res);
+  res.send('id: '+ req.query.id);
+  //res.send("hsould nevre show up");
   
 });
 
