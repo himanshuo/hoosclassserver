@@ -78,11 +78,12 @@ var checkLousList = function(classNum, subject) {
     //xmlHttp.send( null );
     //return url;//xmlHttp.responseText;
   
-    return request(url, function(error, response, body) {
+    request(url, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             return "as";
            // return body; // Print the google web page.
         }
+        return "failed";
     });
 };
 
