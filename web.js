@@ -79,11 +79,13 @@ var checkLousList = function(classNum, subject) {
     //return url;//xmlHttp.responseText;
   var retval="a";
     request(url, function(error, response, body) {
+        alert("ads");
         if (!error && response.statusCode == 200) {
             retval = body;
             alert("a");
            // return body; // Print the google web page.
         }
+
        // retval="b";
     });
     return retval;
