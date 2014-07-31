@@ -146,11 +146,15 @@ request(url, function(error, response, body) {
             waitlist = temp.substring(1,temp.length-1);
             
           }
+          var spots = result.query.results.tr.td[4].a.content;
+          var professor = results.query.results.tr.td[5].strong.span.content;
+          var timing = results.query.results.tr.td[6].p;
+          var room = results.query.results.tr.td[7].p;
 
 
 
 
-          res.send(formatCourseAcronym+classType+units+status+waitlist);
+          res.send(formatCourseAcronym+classType+units+status+waitlist+spots+professor+timing+room);
 
          
     res.send("just");
