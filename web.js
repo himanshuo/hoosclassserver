@@ -62,6 +62,14 @@ if (!String.format) {
     };
 }
 
+function is_int(value){ 
+  if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
+      return true;
+  } else { 
+      return false;
+  }
+}
+
 //https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Frabi.phys.virginia.edu%2FmySIS%2FCS2%2Fpage.php%3FSemester%3D1148%26Type%3DGroup%26Group%3DMDST%22%20and%0A%20%20%20%20%20%20xpath%3D%22%2F%2Ftr%5Bcontains(.%2C'20526')%5D%22&format=json&callback=
 var checkLousList = function(classNum, subject) {
     var request = require('request');
@@ -112,7 +120,26 @@ request(url, function(error, response, body) {
 
 
     var result = JSON.parse(body);
-    res.send(result.query.results.tr.class);
+     var formatCourseAcronym = result.query.results.tr.class.split(" ")[2];
+          //alert(formatCourseAcronym);
+          if(is_int(formatCourseAcronym[2]))
+          {
+            formatCourseAcronym=formatCourseAcronym.substring(0,2)+" "+formatCourseAcronym.substring(2,formatCourseAcronym.length);
+          }
+          else if(is_int(formatCourseAcronym[3]))
+          {
+            formatCourseAcronym=formatCourseAcronym.substring(0,3)+" "+formatCourseAcronym.substring(3,formatCourseAcronym.length);
+            
+          }
+          else
+          {
+            formatCourseAcronym=formatCourseAcronym.substring(0,4)+" "+formatCourseAcronym.substring(4,formatCourseAcronym.length);
+            
+          }
+          var classType = result.query.results.tr.td[2].strong;
+          var units = result.query.results.tr.td[2].p.substring(1,1);
+          res.send(formatCourseAcronym+classType+units);
+         
     res.send("just");
 
     res.send(err.message);
