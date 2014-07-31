@@ -77,14 +77,14 @@ var checkLousList = function(classNum, subject) {
     //xmlHttp.open( "GET", url, false );
     //xmlHttp.send( null );
     //return url;//xmlHttp.responseText;
-  
+  var retval="a";
     request(url, function(error, response, body) {
         if (!error && response.statusCode == 200) {
-            return "as";
+            retval = body;
            // return body; // Print the google web page.
         }
-        return "failed";
     });
+    return retval;
 };
 
 app.get('/', function(req, res) {
