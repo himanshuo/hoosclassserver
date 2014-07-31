@@ -117,8 +117,13 @@ var request = require('request');
 var url = String.format("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Frabi.phys.virginia.edu%2FmySIS%2FCS2%2Fpage.php%3FSemester%3D1148%26Type%3DGroup%26Group%3D{0}%22%20and%0A%20%20%20%20%20%20xpath%3D%22%2F%2Ftr%5Bcontains(.%2C'{1}')%5D%22&format=json&callback=", "MDST", 20526);
 var toPrint = "";
 request(url, function(error, response, body) {
+if(error)
+{
+res.send(error);
 
+}
 
+try{
     var result = JSON.parse(body);
      var formatCourseAcronym = result.query.results.tr.class.split(" ")[2];
           //alert(formatCourseAcronym);
@@ -156,7 +161,11 @@ request(url, function(error, response, body) {
 
           res.send(formatCourseAcronym+classType+units+status+waitlist+spots);//+room);
 
-         
+    }catch(err)
+    {
+        res.send(err.message);
+
+    }     
     res.send("just");
 
     res.send(err.message);
