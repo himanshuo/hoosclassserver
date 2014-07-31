@@ -152,9 +152,9 @@ try{
             
           }
           var spots = result.query.results.tr.td[4].a.content;
-          var professor = results.query.results.tr.td[5].strong.span.content;
-//          var timing = results.query.results.tr.td[6].p;
-    //      var room = results.query.results.tr.td[7].p;
+          var professor = result.query.results.tr.td[5].strong.span.content;
+          var timing = result.query.results.tr.td[6].p;
+          var room = result.query.results.tr.td[7].p;
 
 
 
