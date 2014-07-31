@@ -97,6 +97,11 @@ app.get('/', function(req, res) {
     var email = req.query.email;
     var classNum = req.query.classnum;
     var subject = req.query.subject;
+    var request = require('request');
+    request(url, function(error, response, body){
+
+        res.send("asdf");
+    });
     res.send(checkLousList(20526,"MDST"));
     //sendEmail(res);
     //res.send('id: '+ req.query.id);
