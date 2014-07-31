@@ -81,9 +81,10 @@ var checkLousList = function(classNum, subject) {
     request(url, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             retval = body;
+            alert("a");
            // return body; // Print the google web page.
         }
-        retval="b";
+       // retval="b";
     });
     return retval;
 };
