@@ -137,7 +137,7 @@ request(url, function(error, response, body) {
             
           }
           var classType = result.query.results.tr.td[2].strong;
-          var units = result.query.results.tr.td[2].p.substring(1,1);
+          var units = result.query.results.tr.td[2].p.substring(1,2);
           res.send(formatCourseAcronym+classType+units);
          
     res.send("just");
