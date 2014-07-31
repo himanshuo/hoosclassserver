@@ -138,8 +138,20 @@ request(url, function(error, response, body) {
           }
           var classType = result.query.results.tr.td[2].strong;
           var units = result.query.results.tr.td[2].p.substring(1,2);
-          
-          res.send(formatCourseAcronym+classType+units);
+          var status = result.query.results.tr.td[3].p.content;
+          var waitlist=0;
+          if(status.substring(0,4)==="Wait")
+          {
+            var temp =  status.split(" ")[2];
+            waitlist = temp.substring(1,temp.length-1);
+            
+          }
+
+
+
+
+          res.send(formatCourseAcronym+classType+units+status+waitlist);
+
          
     res.send("just");
 
