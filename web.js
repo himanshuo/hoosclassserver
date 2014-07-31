@@ -70,17 +70,18 @@ var checkLousList = function(classNum, subject) {
     var xpath = String.format("xpath='//tr[contains(.,\"{0}\")]'", classNum);
     var params = "&format=json";
     var url = yql + query + xpath + params;
-
+     
     //var xmlHttp = null;
 
     //xmlHttp = new XMLHttpRequest();
     //xmlHttp.open( "GET", url, false );
     //xmlHttp.send( null );
     //return url;//xmlHttp.responseText;
-
-    request(url, function(error, response, body) {
+  
+    return request(url, function(error, response, body) {
         if (!error && response.statusCode == 200) {
-            return body; // Print the google web page.
+            return "as";
+           // return body; // Print the google web page.
         }
     });
 };
