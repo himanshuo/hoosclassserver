@@ -99,12 +99,14 @@ app.get('/', function(req, res) {
     var subject = req.query.subject;
    //-------------------------------
     var request = require('request');
-    var yql = "https://query.yahooapis.com/v1/public/yql?q=\"";
+   /* var yql = "https://query.yahooapis.com/v1/public/yql?q=\"";
     var query = encodeURIComponent(String.format("select * from html where url='http://rabi.phys.virginia.edu/mySIS/CS2/page.php?Semester=1148&Type=Group&Group={0}'", subject));
     var xpath = String.format("xpath='//tr[contains(.,\"{0}\")]'\"", classNum);
     var params = "&format=json";
-    var url = yql + query +" and " + xpath + params;
+    var url = yql + query +" and " + xpath + params
+    */
     //res.send(url);
+    var url = String.format("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Frabi.phys.virginia.edu%2FmySIS%2FCS2%2Fpage.php%3FSemester%3D1148%26Type%3DGroup%26Group%3D{0}%22%20and%0A%20%20%20%20%20%20xpath%3D%22%2F%2Ftr%5Bcontains(.%2C'{1}')%5D%22&format=json&callback=","MDST",20526);
     request(url, function(error, response, body){
 
         res.send(body);
