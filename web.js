@@ -112,7 +112,7 @@ request(url, function(error, response, body) {
 
 
     var result = JSON.parse(body);
-    res.send(result.query.results.tr);
+    res.send(result.query.results.tr.class);
     res.send("just");
 
     res.send(err.message);
