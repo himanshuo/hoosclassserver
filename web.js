@@ -106,8 +106,9 @@ app.get('/', function(req, res) {
     var url = yql + query + xpath + params;
     request(url, function(error, response, body){
 
-        res.send("asdf");
-        alert("asd");
+        res.send(body);
+        //res.send("asdf");
+
     });
     //res.send("done. async");
     //-----------------
