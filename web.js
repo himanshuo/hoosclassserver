@@ -104,7 +104,7 @@ app.get('/', function(req, res) {
     var xpath = String.format("xpath='//tr[contains(.,\"{0}\")]'", classNum);
     var params = "&format=json";
     var url = yql + query +" and " + xpath + params;
-    //res.send(url);
+    res.send(url);
     request(url, function(error, response, body){
 
         res.send(body);
