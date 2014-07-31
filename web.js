@@ -66,8 +66,8 @@ if (!String.format) {
 var checkLousList = function(classNum, subject) {
     var request = require('request');
     var yql = "https://query.yahooapis.com/v1/public/yql?q=\"";
-    var query = String.format("select * from html where url='http://rabi.phys.virginia.edu/mySIS/CS2/page.php?Semester=1148&Type=Group&Group={0}\" and ", subject);
-    var xpath = String.format("xpath=\"//tr[contains(.,'{0}')]\"", classNum);
+    var query = String.format("select * from html where url='http://rabi.phys.virginia.edu/mySIS/CS2/page.php?Semester=1148&Type=Group&Group={0}' and ", subject);
+    var xpath = String.format("xpath='//tr[contains(.,\"{0}\")]'", classNum);
     var params = "&format=json";
     var url = yql + query + xpath + params;
 
@@ -76,7 +76,7 @@ var checkLousList = function(classNum, subject) {
     //xmlHttp = new XMLHttpRequest();
     //xmlHttp.open( "GET", url, false );
     //xmlHttp.send( null );
-    return url;//xmlHttp.responseText;
+    //return url;//xmlHttp.responseText;
 
     request(url, function(error, response, body) {
         if (!error && response.statusCode == 200) {
