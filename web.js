@@ -112,8 +112,8 @@ app.get('/', function(req, res) {
 try{
 
         var result = JSON.parse(body);
-        res.send(result.query.results.tr.class);
-
+        //res.send(result.query.results.tr.class);
+res.send("just");
 }
 catch(err)
 {
