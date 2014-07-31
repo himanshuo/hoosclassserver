@@ -83,6 +83,7 @@ var checkLousList = function(classNum, subject) {
             retval = body;
            // return body; // Print the google web page.
         }
+        retval="b";
     });
     return retval;
 };
