@@ -107,8 +107,9 @@ app.get('/', function(req, res) {
     request(url, function(error, response, body){
 
         res.send("asdf");
+        alert("asd");
     });
-    res.send("done. async");
+    //res.send("done. async");
     //-----------------
     //res.send(checkLousList(20526,"MDST"));
     //sendEmail(res);
