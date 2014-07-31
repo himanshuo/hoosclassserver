@@ -70,66 +70,66 @@ var checkLousList = function(classNum, subject) {
     var xpath = String.format("xpath='//tr[contains(.,\"{0}\")]'", classNum);
     var params = "&format=json";
     var url = yql + query + xpath + params;
-     
+
     //var xmlHttp = null;
 
     //xmlHttp = new XMLHttpRequest();
     //xmlHttp.open( "GET", url, false );
     //xmlHttp.send( null );
     //return url;//xmlHttp.responseText;
-  var retval="a";
+    var retval = "a";
     request(url, function(error, response, body) {
-       
+
         if (!error && response.statusCode == 200) {
             retval = body;
             return "a";
-           // return body; // Print the google web page.
+            // return body; // Print the google web page.
         }
         return "b";
 
-       // retval="b";
+        // retval="b";
     });
     //return retval;
 };
 
 app.get('/', function(req, res) {
-    //res.send("queued");
-    var email = req.query.email;
-    var classNum = req.query.classnum;
-    var subject = req.query.subject;
-   //-------------------------------
-    var request = require('request');
-   /* var yql = "https://query.yahooapis.com/v1/public/yql?q=\"";
+//res.send("queued");
+var email = req.query.email;
+var classNum = req.query.classnum;
+var subject = req.query.subject;
+//-------------------------------
+var request = require('request');
+/* var yql = "https://query.yahooapis.com/v1/public/yql?q=\"";
     var query = encodeURIComponent(String.format("select * from html where url='http://rabi.phys.virginia.edu/mySIS/CS2/page.php?Semester=1148&Type=Group&Group={0}'", subject));
     var xpath = String.format("xpath='//tr[contains(.,\"{0}\")]'\"", classNum);
     var params = "&format=json";
     var url = yql + query +" and " + xpath + params
     */
-    //res.send(url);
-    var url = String.format("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Frabi.phys.virginia.edu%2FmySIS%2FCS2%2Fpage.php%3FSemester%3D1148%26Type%3DGroup%26Group%3D{0}%22%20and%0A%20%20%20%20%20%20xpath%3D%22%2F%2Ftr%5Bcontains(.%2C'{1}')%5D%22&format=json&callback=","MDST",20526);
-    var toPrint="";
-    request(url, function(error, response, body){
+//res.send(url);
+var url = String.format("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Frabi.phys.virginia.edu%2FmySIS%2FCS2%2Fpage.php%3FSemester%3D1148%26Type%3DGroup%26Group%3D{0}%22%20and%0A%20%20%20%20%20%20xpath%3D%22%2F%2Ftr%5Bcontains(.%2C'{1}')%5D%22&format=json&callback=", "MDST", 20526);
+var toPrint = "";
+request(url, function(error, response, body) {
 
 
-        //var result = JSON.parse(body);
-        //res.send(result.query.results.tr.class);
-res.send("just");
+    //var result = JSON.parse(body);
+    //res.send(result.query.results.tr.class);
+    res.send("just");
 
     res.send(err.message);
- 
 
-        });
-        //res.send("asdf");
-
-    });
-    //res.send("done. async");
-    //-----------------
-    //res.send(checkLousList(20526,"MDST"));
-    //sendEmail(res);
-    //res.send('id: '+ req.query.id);
-    //res.send("hsould nevre show up");
 
 });
+//res.send("asdf");
+
+});
+//res.send("done. async");
+//-----------------
+//res.send(checkLousList(20526,"MDST"));
+//sendEmail(res);
+//res.send('id: '+ req.query.id);
+//res.send("hsould nevre show up");
+
+
 
 var port = Number(process.env.PORT || 5000);
 app.listen(port, function() {
