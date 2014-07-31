@@ -97,11 +97,18 @@ app.get('/', function(req, res) {
     var email = req.query.email;
     var classNum = req.query.classnum;
     var subject = req.query.subject;
+   //-------------------------------
     var request = require('request');
+    var yql = "https://query.yahooapis.com/v1/public/yql?q=\"";
+    var query = String.format("select * from html where url='http://rabi.phys.virginia.edu/mySIS/CS2/page.php?Semester=1148&Type=Group&Group={0}' and ", subject);
+    var xpath = String.format("xpath='//tr[contains(.,\"{0}\")]'", classNum);
+    var params = "&format=json";
+    var url = yql + query + xpath + params;
     request(url, function(error, response, body){
 
         res.send("asdf");
     });
+    //-----------------
     res.send(checkLousList(20526,"MDST"));
     //sendEmail(res);
     //res.send('id: '+ req.query.id);
