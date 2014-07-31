@@ -108,8 +108,9 @@ app.get('/', function(req, res) {
 
         res.send("asdf");
     });
+    res.send("done. async");
     //-----------------
-    res.send(checkLousList(20526,"MDST"));
+    //res.send(checkLousList(20526,"MDST"));
     //sendEmail(res);
     //res.send('id: '+ req.query.id);
     //res.send("hsould nevre show up");
