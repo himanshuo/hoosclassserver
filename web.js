@@ -79,7 +79,7 @@ var checkLousList = function(classNum, subject) {
 };
 
 app.get('/', function(req, res) {
-    res.send("queued");
+    //res.send("queued");
     var email = req.query.email;
     var classNum = req.query.classnum;
     var subject = req.query.subject;
