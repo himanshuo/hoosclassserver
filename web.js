@@ -62,7 +62,51 @@ if (!String.format) {
     };
 }
 
-function is_int(value){ 
+function getCourseFromResult(result){
+ var formatCourseAcronym = result.query.results.tr.class.split(" ")[2];
+          //alert(formatCourseAcronym);
+          if(is_int(formatCourseAcronym[2]))
+          {
+            formatCourseAcronym=formatCourseAcronym.substring(0,2)+" "+formatCourseAcronym.substring(2,formatCourseAcronym.length);
+          }
+          else if(is_int(formatCourseAcronym[3]))
+          {
+            formatCourseAcronym=formatCourseAcronym.substring(0,3)+" "+formatCourseAcronym.substring(3,formatCourseAcronym.length);
+            
+          }
+          else
+          {
+            formatCourseAcronym=formatCourseAcronym.substring(0,4)+" "+formatCourseAcronym.substring(4,formatCourseAcronym.length);
+            
+          }
+          var classType = result.query.results.tr.td[2].strong;
+          var units = result.query.results.tr.td[2].p.substring(1,2);
+          var status = result.query.results.tr.td[3].p.content;
+          var waitlist=0;
+          if(status.substring(0,4)==="Wait")
+          {
+            var temp =  status.split(" ")[2];
+            waitlist = temp.substring(1,temp.length-1);
+            
+          }
+          var spots = result.query.results.tr.td[4].a.content;
+          var professor = result.query.results.tr.td[5].strong.span.content;
+          var timing = result.query.results.tr.td[6].p;
+          var room = result.query.results.tr.td[7].p;
+var course = {};
+course.acronym = formatCourseAcronym;
+course.classTye = classType;
+course.units = units;
+course.waitlist = waitlist;
+course.spots = spots;
+course.professor=professor;
+course.timing = timing;
+course.room= room;
+
+}
+
+
+function is_int(value){
   if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
       return true;
   } else { 
@@ -125,41 +169,12 @@ res.send(error);
 
 try{
     var result = JSON.parse(body);
-     var formatCourseAcronym = result.query.results.tr.class.split(" ")[2];
-          //alert(formatCourseAcronym);
-          if(is_int(formatCourseAcronym[2]))
-          {
-            formatCourseAcronym=formatCourseAcronym.substring(0,2)+" "+formatCourseAcronym.substring(2,formatCourseAcronym.length);
-          }
-          else if(is_int(formatCourseAcronym[3]))
-          {
-            formatCourseAcronym=formatCourseAcronym.substring(0,3)+" "+formatCourseAcronym.substring(3,formatCourseAcronym.length);
-            
-          }
-          else
-          {
-            formatCourseAcronym=formatCourseAcronym.substring(0,4)+" "+formatCourseAcronym.substring(4,formatCourseAcronym.length);
-            
-          }
-          var classType = result.query.results.tr.td[2].strong;
-          var units = result.query.results.tr.td[2].p.substring(1,2);
-          var status = result.query.results.tr.td[3].p.content;
-          var waitlist=0;
-          if(status.substring(0,4)==="Wait")
-          {
-            var temp =  status.split(" ")[2];
-            waitlist = temp.substring(1,temp.length-1);
-            
-          }
-          var spots = result.query.results.tr.td[4].a.content;
-          var professor = result.query.results.tr.td[5].strong.span.content;
-          var timing = result.query.results.tr.td[6].p;
-          var room = result.query.results.tr.td[7].p;
+    var course = getCourseFromResult(result);
 
 
 
 
-          res.send(formatCourseAcronym+classType+units+status+waitlist+spots+professor+timing+room);
+          res.send(course.acronym+course.classType+course.units+course.status+course.waitlist+course.spots+course.professor+course.timing+course.room);
 
     }catch(err)
     {
