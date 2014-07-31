@@ -147,14 +147,14 @@ request(url, function(error, response, body) {
             
           }
           var spots = result.query.results.tr.td[4].a.content;
-//          var professor = results.query.results.tr.td[5].strong.span.content;
+          var professor = results.query.results.tr.td[5].strong.span.content;
   //        var timing = results.query.results.tr.td[6].p;
     //      var room = results.query.results.tr.td[7].p;
 
 
 
 
-          res.send(formatCourseAcronym+classType+units+status+waitlist+spots);//+professor+timing+room);
+          res.send(formatCourseAcronym+classType+units+status+waitlist+spots+professor);//+timing+room);
 
          
     res.send("just");
