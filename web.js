@@ -159,7 +159,7 @@ try{
 
 
 
-          res.send(formatCourseAcronym+classType+units+status+waitlist+spots+professor);//+room);
+          res.send(formatCourseAcronym+classType+units+status+waitlist+spots+professor+timing+room);
 
     }catch(err)
     {
