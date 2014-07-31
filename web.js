@@ -103,7 +103,7 @@ app.get('/', function(req, res) {
     var query = String.format("select * from html where url='http://rabi.phys.virginia.edu/mySIS/CS2/page.php?Semester=1148&Type=Group&Group={0}' and ", subject);
     var xpath = String.format("xpath='//tr[contains(.,\"{0}\")]'", classNum);
     var params = "&format=json";
-    var url = yql + query + xpath + params;
+    var url = encodeURIComponent(yql + query + xpath + params);
     res.send(url);
     request(url, function(error, response, body){
 
