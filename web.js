@@ -111,8 +111,8 @@ var toPrint = "";
 request(url, function(error, response, body) {
 
 
-    //var result = JSON.parse(body);
-    //res.send(result.query.results.tr.class);
+    var result = JSON.parse(body);
+    res.send(result.query.results.tr[0].class);
     res.send("just");
 
     res.send(err.message);
