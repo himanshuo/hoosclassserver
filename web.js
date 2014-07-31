@@ -63,6 +63,7 @@ if (!String.format) {
 }
 
 function getCourseFromResult(result){
+try{
  var formatCourseAcronym = result.query.results.tr.class.split(" ")[2];
           //alert(formatCourseAcronym);
           if(is_int(formatCourseAcronym[2]))
@@ -102,7 +103,13 @@ course.spots = spots;
 course.professor=professor;
 course.timing = timing;
 course.room= room;
+return course;
+}
+catch(err)
+{
+res.send(err.message);
 
+}
 }
 
 
