@@ -178,7 +178,7 @@ app.get('/', function(req, res) {
             {
                 var total="";
                 var pg = require('pg');
-                alert(process.env.DATABASE_URL);
+                res.send(process.env.DATABASE_URL);
                 pg.connect(process.env.DATABASE_URL, function(err, client) {
                 var query = client.query("select * from alerts");
                 query.on('row', function(row) {
