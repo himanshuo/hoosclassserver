@@ -197,7 +197,7 @@ console.log("process.env.DATABASE_URL:"+process.env.DATABASE_URL);
                 //console.log(client);
                 var query = client.query("select * from alerts;");
                 query.on('row', function(row) {
-                    //res.send('some ret val');
+                    res.send('some ret val');
                     //total+=(JSON.stringify(row));
                     total='b';
                 });
