@@ -197,16 +197,16 @@ console.log("process.env.DATABASE_URL:"+process.env.DATABASE_URL);
                 //console.log(client);
                 var query = client.query("select * from alerts;");
                 query.on('row', function(row) {
-                    res.send('some ret val');
-                    //total+=(JSON.stringify(row));
-                    total='b';
+                    //res.send('some ret val');
+                    total+=(JSON.stringify(row));
+                    //total='b';
                 });
                 query.on('end', function(result) {
                       //res.send('end called');
-                      total='c';
+                      //total='c';
                 });
             }
-//                res.send(total);
+                res.send(total);
 });
 
             }
