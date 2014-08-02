@@ -181,6 +181,7 @@ app.get('/', function(req, res) {
                 pg.connect(process.env.DATABASE_URL, function(err, client) {
                 var query = client.query("select * from alerts");
                 query.on('row', function(row) {
+                    res.send('some ret val');
                     total+=(JSON.stringify(row));
                 });
                 res.send(total);
