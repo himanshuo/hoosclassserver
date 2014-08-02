@@ -195,9 +195,7 @@ app.get('/', function(req, res) {
             res.send(err.message);
 
         }
-//        res.send("just");
 
-        res.send(err.message);
 
 
     });
