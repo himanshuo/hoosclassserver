@@ -28,7 +28,7 @@ var sendEmail = function(email) {
         "important": true,
         "track_opens": true
     };
-/*    var async = false;
+    /*    var async = false;
     var ip_pool = "Main Pool";
     var send_at = "example send_at";*/
     mandrill_client.messages.sendTemplate({
@@ -62,7 +62,7 @@ if (!String.format) {
     };
 }
 
-function getCourseFromResult(result) {
+function getCourseFromResult(result,classNum) {
     try {
         var formatCourseAcronym = result.query.results.tr.class.split(" ")[2];
         //alert(formatCourseAcronym);
@@ -76,27 +76,61 @@ function getCourseFromResult(result) {
 
         }
         var classType = result.query.results.tr.td[2].strong;
-        var units = result.query.results.tr.td[2].p.substring(1, 2);
+        var formatClassType = 10;
+        if(classType==="Lecture") {formatClassType=1;}
+        if(classType==="Discussion") {formatClassType=2;}
+        if(classType==="Seminar") {formatClassType=3;}
+        if(classType==="Laboratory") {formatClassType=4;}
+        if(classType==="Independent Study") {formatClassType=5;}
+        if(classType==="Practicum") {formatClassType=6;}
+        if(classType==="Workshop") {formatClassType=7;}
+        if(classType==="Studio") {formatClassType=8;}
+        if(classType==="Clinical") {formatClassType=9;}
+        
+
+        var units = result.query.results.tr.td[2].p.split(" ");
+        var formatUnits = units[0].substring(1, units[0].length);
+        if(units.length===4) {
+        
+            formatUnits = formatUnits + " - "+units[2];
+        }
         var status = result.query.results.tr.td[3].p.content;
         var waitlist = 0;
+        var statusCode="w";
         if (status.substring(0, 4) === "Wait") {
             var temp = status.split(" ")[2];
             waitlist = temp.substring(1, temp.length - 1);
+            statusCode="w";
+
+        }
+        else if(status==="Closed")
+        {
+            statusCode="c";
+        }
+        else if(status==="Open")
+        {
+            statusCode = "o";
 
         }
         var spots = result.query.results.tr.td[4].a.content;
         var professor = result.query.results.tr.td[5].strong.span.content;
         var timing = result.query.results.tr.td[6].p;
         var room = result.query.results.tr.td[7].p;
+
+        var name = result.query.results.td.p;
+
         var course = {};
         course.acronym = formatCourseAcronym;
-        course.classTye = classType;
+        course.classType = formatClassType;
         course.units = units;
         course.waitlist = waitlist;
         course.spots = spots;
         course.professor = professor;
         course.timing = timing;
         course.room = room;
+        course.name=name;
+        course.number = classNum;
+        course.status = statusCode;
         return course;
     } catch (err) {
         res.send(err.message);
@@ -145,9 +179,10 @@ var checkLousList = function(classNum, subject) {
 
 app.get('/', function(req, res) {
     //res.send("queued");
-    var email = req.query.email;
-    var classNum = req.query.classnum;
-    var subject = req.query.subject;
+    var email = "ho2es@virginia.edu";//req.query.email;
+    var phone = "";//req.query.phone;
+    var classNum = 20526;//req.query.classnum;
+    var subject = "MDST";//req.query.subject;
     //-------------------------------
     var request = require('request');
     /* var yql = "https://query.yahooapis.com/v1/public/yql?q=\"";
@@ -157,63 +192,66 @@ app.get('/', function(req, res) {
     var url = yql + query +" and " + xpath + params
     */
     //res.send(url);
-    var url = String.format("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Frabi.phys.virginia.edu%2FmySIS%2FCS2%2Fpage.php%3FSemester%3D1148%26Type%3DGroup%26Group%3D{0}%22%20and%0A%20%20%20%20%20%20xpath%3D%22%2F%2Ftr%5Bcontains(.%2C'{1}')%5D%22&format=json&callback=", "MDST", 20526);
+    var url = String.format("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D'http%3A%2F%2Frabi.phys.virginia.edu%2FmySIS%2FCS2%2Fpage.php%3FSemester%3D1148%26Type%3DGroup%26Group%3D{0}'%20and%20xpath%3D'%2F%2Ftr%5Bcontains(.%2C%22{1}%22)%5D%20%7C%20%2F%2Ftr%5Bcontains(.%2C%22{1}%22)%5D%2Fpreceding-sibling%3A%3Atr%2Ftd%5B%40class%3D%22CourseName%22%5D'&format=json&diagnostics=true&callback=", subject, classNum);
     var toPrint = "";
     request(url, function(error, response, body) {
         if (error) {
             res.send(error);
 
         }
-       console.log("process.env.DATABASE_URL:"+process.env.DATABASE_URL);
+
         try {
             var result = JSON.parse(body);
-            var course = getCourseFromResult(result);
+            var course = getCourseFromResult(result, classNum);
+            var pg = require('pg');
+            var conString = "postgres://mtbbgqkcsmjiid:whCt3bC7jvEp6ff1uy7C28FHhQ@ec2-54-197-241-78.compute-1.amazonaws.com:5432/d1c4asavssr229";
 
-
-            if(course.status==="open")
-            {
+            if (course.status === "open") {
                 sendEmail(email);
-            }
-            else
-            {
-                var total='a';
-                var pg = require('pg');
+                //can store info in database right now...
+            } else {
+                var total = 'a';
+               
 
-//----
-var conString = "postgres://mtbbgqkcsmjiid:whCt3bC7jvEp6ff1uy7C28FHhQ@ec2-54-197-241-78.compute-1.amazonaws.com:5432/d1c4asavssr229";
+                //console.log("process.env.DATABASE_URL:" + process.env.DATABASE_URL);
 
-console.log("process.env.DATABASE_URL:"+process.env.DATABASE_URL);
-
-//---
+                //---
                 pg.connect(conString, function(err, client) {
-                if(err)
-                {
-                    console.log("!!!!!!!!!!!!!!!!!!"+err.message);
-                    res.send(err.message);
+                    if (err) {
+                        //console.log("!!!!!!!!!!!!!!!!!!"+err.message);
+                        res.send(err.message);
 
-                }
-                else
-                {
-                //console.log(client);
-                var query = client.query("select * from alerts;");
-                query.on('row', function(row) {
-                    //res.send('some ret val');
-                    total+=(JSON.stringify(row));
-                    res.send(total);
-                    //total='b';
+                    } else {
+                        //console.log(client);
+                      var q = String.format("insert into alerts(last_update, done, class_name, class_num, acronym, class_type, units, num_waitlist, spots, professor, room, status, timing, email, phone) VALUES (now(), false,'{0}','{1}','{2}','{3}','{4}',{5},'{6}','{7}','{8}','{9}','{10}','{11}','{12}');",course.name, course.number, course.acronym, course.classType,course.units, course.spots, course.professor, course.room, course.status, course.timing, email, phone);
+                        var query = client.query(q);
+                        query.on('row', function(row) {
+                            //res.send('some ret val');
+                            total += (row);
+                            res.send(total);
+                            //total='b';
+                        });
+                        query.on('end', function(result) {
+                            //res.send('end called');
+                            //total='c';
+                        });
+                    }
+                    // res.send(total);
                 });
-                query.on('end', function(result) {
-                      //res.send('end called');
-                      //total='c';
-                });
-            }
-               // res.send(total);
-});
 
             }
+/*
+ course.acronym = formatCourseAcronym;
+        course.classTye = classType;
+        course.units = units;
+        course.waitlist = waitlist;
+        course.spots = spots;
+        course.professor = professor;
+        course.timing = timing;
+        course.room = room;
+*/
 
-
-//            res.send(course.acronym + course.classType + course.units + course.status + course.waitlist + course.spots + course.professor + course.timing + course.room);
+            //            res.send(course.acronym + course.classType + course.units + course.status + course.waitlist + course.spots + course.professor + course.timing + course.room);
 
         } catch (err) {
             res.send(err.message);
