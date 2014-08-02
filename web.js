@@ -199,6 +199,7 @@ console.log("process.env.DATABASE_URL:"+process.env.DATABASE_URL);
                 query.on('row', function(row) {
                     //res.send('some ret val');
                     total+=(JSON.stringify(row));
+                    res.send(total);
                     //total='b';
                 });
                 query.on('end', function(result) {
