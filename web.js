@@ -176,7 +176,15 @@ app.get('/', function(req, res) {
             }
             else
             {
-                //put into db.
+                var total="";
+                var pg = require('pg');
+                pg.connect(process.env.DATABASE_URL, function(err, client) {
+                var query = client.query('SELECT * FROM alerts');
+                query.on('row', function(row) {
+                    total+=(JSON.stringify(row));
+                });
+                res.send(total);
+});
 
             }
 

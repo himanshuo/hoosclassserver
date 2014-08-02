@@ -1,3 +1,35 @@
 heroku pg:info   --see what is in db
+heroku pg:psql   --psql terminal client for postgres
 
 
+
+
+
+current table: 
+
+CREATE TABLE Alerts 
+(
+--alerts
+id integer PRIMARY KEY,
+created_on TIMESTAMP DEFAULT now() NOT NULL,
+last_update TIMESTAMP,--whenever updating db, use now()
+done boolean NOT NULL,
+--classes
+class_name varchar(50),
+class_num varchar(5) NOT NULL,
+acronym varchar(10) NOT NULL,
+class_type varchar(20) DEFAULT 'Lecture',
+units integer,
+num_waitlist integer DEFAULT 0,
+spots varchar(10),
+professor varchar(50),
+room varchar(100),
+status varchar(1) NOT NULL, --c=closed, o=open, w=waitlist
+timing varchar(50),
+
+--user
+email varchar(50) NOT NULL,
+phone varchar(15)
+
+);
+11015 100Lecture (4 Units)Wait List (58) 244 / 244Andre Cavalcante+1TuTh 11:00AM - 12:15PMWilson Hall 402 - See more at: http://rabi.phys.virginia.edu/mySIS/CS2/page.php?Semester=1148&Type=Group&Group=MDST#sthash.SKJANP9c.dpuf
