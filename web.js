@@ -176,7 +176,7 @@ app.get('/', function(req, res) {
             }
             else
             {
-                var total="";
+                var total='a';
                 var pg = require('pg');
 
                 pg.connect(process.env.DATABASE_URL, function(err, client) {
@@ -188,11 +188,13 @@ app.get('/', function(req, res) {
 
                 var query = client.query("select * from alerts");
                 query.on('row', function(row) {
-                    res.send('some ret val');
+                    //res.send('some ret val');
                     //total+=(JSON.stringify(row));
+                    total='b';
                 });
                 query.on('end', function(result) {
-                      res.send('end called');
+                      //res.send('end called');
+                      total='c';
                 });
                 res.send(total);
 });
