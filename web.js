@@ -164,7 +164,7 @@ app.get('/', function(req, res) {
             res.send(error);
 
         }
-
+       console.log("process.env.DATABASE_URL:"+process.env.DATABASE_URL);
         try {
             var result = JSON.parse(body);
             var course = getCourseFromResult(result);
@@ -179,13 +179,22 @@ app.get('/', function(req, res) {
                 var total='a';
                 var pg = require('pg');
 
-                pg.connect(process.env.DATABASE_URL, function(err, client) {
+//----
+var conString = "postgres://mtbbgqkcsmjiid:whCt3bC7jvEp6ff1uy7C28FHhQ@ec2-54-197-241-78.compute-1.amazonaws.com:5432/d1c4asavssr229";
+
+console.log("process.env.DATABASE_URL:"+process.env.DATABASE_URL);
+
+//---
+                pg.connect(conString, function(err, client) {
                 if(err)
                 {
+                    console.log("!!!!!!!!!!!!!!!!!!"+err.message);
                     res.send(err.message);
 
                 }
-
+                else
+                {
+                //console.log(client);
                 var query = client.query("select * from alerts;");
                 query.on('row', function(row) {
                     //res.send('some ret val');
@@ -196,7 +205,8 @@ app.get('/', function(req, res) {
                       //res.send('end called');
                       total='c';
                 });
-                res.send(total);
+            }
+//                res.send(total);
 });
 
             }
