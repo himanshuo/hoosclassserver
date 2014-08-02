@@ -207,7 +207,7 @@ console.log("process.env.DATABASE_URL:"+process.env.DATABASE_URL);
                       //total='c';
                 });
             }
-                res.send(total);
+               // res.send(total);
 });
 
             }
