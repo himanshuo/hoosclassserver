@@ -185,11 +185,14 @@ app.get('/', function(req, res) {
                     res.send(err.message);
 
                 }
-                res.send('connected :)');
+
                 var query = client.query("select * from alerts");
                 query.on('row', function(row) {
                     res.send('some ret val');
                     total+=(JSON.stringify(row));
+                });
+                query.on('end', function(result) {
+                      res.send('end called');
                 });
                 res.send(total);
 });
