@@ -179,7 +179,7 @@ app.get('/', function(req, res) {
                 var total="";
                 var pg = require('pg');
                 pg.connect(process.env.DATABASE_URL, function(err, client) {
-                var query = client.query("insert into alerts (last_update, done, class_name, class_num, acronym, class_type, units, num_waitlist, spots, professor, room, status, timing, email, phone) VALUES (now(), false, 'intro to math', '43320', 'math 101', '1','1', 20, '20/20', 'prof norm', 'math building', 'w', 'moweth 5:30pm-6:3-pm', 'fake@virginia.edu','7031238989')'");
+                var query = client.query("select * from alerts");
                 query.on('row', function(row) {
                     total+=(JSON.stringify(row));
                 });
