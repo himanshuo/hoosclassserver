@@ -224,8 +224,9 @@ app.get('/', function(req, res) {
                     } else {
                         //console.log(client);
                       var q = String.format("insert into alerts(last_update, done, class_name, class_num, acronym, class_type, units, num_waitlist, spots, professor, room, status, timing, email, phone) VALUES (now(), false,'{0}','{1}','{2}','{3}','{4}',{5},'{6}','{7}','{8}','{9}','{10}','{11}','{12}');",course.name, course.number, course.acronym, course.classType,course.units, course.spots, course.professor, course.room, course.status, course.timing, email, phone);
-                        var query = client.query(q);
-                        query.on('row', function(row) {
+                       try{
+                            var query = client.query(q);
+                            query.on('row', function(row) {
                             //res.send('some ret val');
                             total += (row);
                             res.send(total);
@@ -235,6 +236,12 @@ app.get('/', function(req, res) {
                             //res.send('end called');
                             //total='c';
                         });
+                       }
+                       catch(err)
+                       {
+                        res.send(err.message);
+                       }
+
                     }
                     // res.send(total);
                 });
