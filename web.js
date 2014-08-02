@@ -189,7 +189,7 @@ app.get('/', function(req, res) {
                 var query = client.query("select * from alerts");
                 query.on('row', function(row) {
                     res.send('some ret val');
-                    total+=(JSON.stringify(row));
+                    //total+=(JSON.stringify(row));
                 });
                 query.on('end', function(result) {
                       res.send('end called');
