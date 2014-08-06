@@ -1,0 +1,19 @@
+{
+  "name": "HoosClassServer",
+  "description": "simple web server to handle requests from HoosClass Website",
+  "version": "0.0.1",
+  "main": "web.js",
+  "private": true,
+  "author": "himanshu ojha",
+  "license": "MIT",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "dependencies": {
+    "express": "3.x",
+    "logfmt": "1.x",
+    "mandrill-api": ">=1.0.2",
+    "pg": "^3.4.0",
+    "request": "^2.39.0"
+  }
+}

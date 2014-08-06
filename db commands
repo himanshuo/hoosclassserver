@@ -1,0 +1,82 @@
+heroku pg:info   --see what is in db
+heroku pg:psql   --psql terminal client for postgres
+
+
+
+
+
+current table: 
+
+CREATE TABLE Alerts 
+(
+--alerts
+id serial PRIMARY KEY,
+created_on TIMESTAMP DEFAULT now() NOT NULL,
+last_update TIMESTAMP,--whenever updating db, use now()
+done boolean NOT NULL,
+--classes
+class_name varchar(50),
+class_num varchar(5) NOT NULL,
+acronym varchar(10) NOT NULL,
+class_type smallint DEFAULT '1', -- 1=lecture, 2=discussion, 3=seminar, --4=laboratory, 5=independent study, 6=practicum, 7=workshop, 8=studio, 9=Clinical, --10=other  
+units varchar(8),
+num_waitlist integer DEFAULT 0,
+spots varchar(10),
+professor varchar(50),
+room varchar(100),
+status varchar(1) NOT NULL, --c=closed, o=open, w=waitlist  !!!all lowercase!!!
+timing varchar(50),
+
+--user
+email varchar(50) NOT NULL,
+phone varchar(15)
+
+);
+
+
+insert into alerts (last_update, done, class_name, class_num, acronym, class_type, units, num_waitlist, spots, professor, room, status, timing, email, phone) VALUES (now(), false, 'intro to math', '43320', 'math 101', '1','1', 20, '20/20', 'prof norm', 'math building', 'w', 'moweth 5:30pm-6:3-pm', 'fake@virginia.edu','7031238989')
+
+
+11015 100Lecture (4 Units)Wait List (58) 244 / 244Andre Cavalcante+1TuTh 11:00AM - 12:15PMWilson Hall 402 - See more at: http://rabi.phys.virginia.edu/mySIS/CS2/page.php?Semester=1148&Type=Group&Group=MDST#sthash.SKJANP9c.dpuf
+
+
+
+var q = String.format("insert into alerts 
+                            (last_update, 
+                                done, 
+                                class_name, //0
+                                class_num, 
+                                acronym, 
+                                class_type, //3
+                                units, //4
+                                num_waitlist,  //5
+                                spots, //6
+                                professor,//7 
+                                room, 
+                                status, 
+                                timing, //10
+                                email, 
+                                phone) //12
+                            VALUES 
+(now(), 
+false, 
+'{0}, 
+'{1}', 
+'{2}', 
+'{3}',
+'{4}', 
+{5}, 
+'{6}', 
+'{7}', 
+'{8}', 
+'{9}',
+'{10}', 
+'{11}',
+'{12}');", 
+
+course.name, course.number, course.acronym, course.classType,course.units, course.spots, course.professor, course.room, course.status, course.timing, email, phone)
+
+
+
+
+var q = String.format("insert into alerts(last_update, done, class_name, class_num, acronym, class_type, units, num_waitlist, spots, professor, room, status, timing, email, phone) VALUES (now(), false,'{0}','{1}','{2}','{3}','{4}',{5},'{6}','{7}','{8}','{9}','{10}','{11}','{12}');",course.name, course.number, course.acronym, course.classType,course.units, course.spots, course.professor, course.room, course.status, course.timing, email, phone);
