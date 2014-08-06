@@ -24,7 +24,7 @@ num_waitlist integer DEFAULT 0,
 spots varchar(10),
 professor varchar(50),
 room varchar(100),
-status varchar(1) NOT NULL, --c=closed, o=open, w=waitlist
+status varchar(1) NOT NULL, --c=closed, o=open, w=waitlist  !!!all lowercase!!!
 timing varchar(50),
 
 --user
@@ -38,3 +38,40 @@ insert into alerts (last_update, done, class_name, class_num, acronym, class_typ
 
 
 11015 100Lecture (4 Units)Wait List (58) 244 / 244Andre Cavalcante+1TuTh 11:00AM - 12:15PMWilson Hall 402 - See more at: http://rabi.phys.virginia.edu/mySIS/CS2/page.php?Semester=1148&Type=Group&Group=MDST#sthash.SKJANP9c.dpuf
+
+
+
+var q = String.format("insert into alerts 
+                            (last_update, 
+                                done, 
+                                class_name, //0
+                                class_num, 
+                                acronym, 
+                                class_type, //3
+                                units, //4
+                                num_waitlist,  //5
+                                spots, //6
+                                professor,//7 
+                                room, 
+                                status, 
+                                timing, //10
+                                email, 
+                                phone) //12
+                            VALUES 
+(now(), 
+false, 
+'{0}, 
+'{1}', 
+'{2}', 
+'{3}',
+'{4}', 
+{5}, 
+'{6}', 
+'{7}', 
+'{8}', 
+'{9}',
+'moweth 5:30pm-6:3-pm', 
+'fake@virginia.edu',
+'7031238989');", 
+
+course.name, course.number, course.acronym, course.classType,course.units, course.spots, course.professor, course.room, course.  )

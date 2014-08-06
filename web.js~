@@ -205,7 +205,7 @@ app.get('/', function(req, res) {
             var course = getCourseFromResult(result, classNum);
             var pg = require('pg');
             //production
-            
+            //var conString = "postgres://mtbbgqkcsmjiid:whCt3bC7jvEp6ff1uy7C28FHhQ@ec2-54-197-241-78.compute-1.amazonaws.com:5432/d1c4asavssr229";
             //dev
               var conString = "postgres://himanshu@localhost:5432/mylocaldb";
             if (course.status === "open") {
@@ -229,27 +229,8 @@ app.get('/', function(req, res) {
                             console.log("???????????????????//");
                             res.send("made it pretty far");
                             client.query(q);
-                        /*
-                            //------   USE THIS to insert!!!!!!!!!!!!!!!!!
-                        client.query(
-              'INSERT into parte (id, date, time) VALUES($1, $2, $3)',
-              [id, date, time],
-              function (err, result) {
-                  if (err) {
-                      console.log(err);
-                  } else {
-                      console.log('row inserted: ' + id + ' ' + time);
-                  }
-                  callbacks++;
-                  if (callbacks === 8) {
-                      console.log('All callbacks done!');
-                      done();    // done(); is rough equivalent of client.end();
-                  }
-              });
-                        //------
-                        */
+                        
                             res.send("make");
-
 
                     }
                     // res.send(total);
@@ -286,59 +267,6 @@ app.get('/', function(req, res) {
 //sendEmail(res);
 //res.send('id: '+ req.query.id);
 //res.send("hsould nevre show up");
-//-------------cycle code------------------------
-var request = require('request');
-var pg = require('pg');
-var conString = process.env.DATABASE_URL;
-pg.connect(conString, function (err, client) {
-    if (err) {
-        console.log("!!!!!!!!!!!!!!!!!!" + err.message);
-        res.send(err.message);
-
-    } else {
-        console.log(client);
-        var q = "select * from alerts where done=false";
-        var query = client.query(q);
-        query.on('row', function (row) {
-
-            //check if changed. Build a class object with the appropriate fields.
-            url = String.format("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Frabi.phys.virginia.edu%2FmySIS%2FCS2%2Fsectiontip.php%3FSemester%3D1148%26ClassNumber%3D{0}%22%20and%20xpath%3D%22%2F%2Ftr%22&diagnostics=false", course.classNum)
-            request(url, function (error, response, body) {
-                if (error) {
-                    console.log(error);
-                }
-
-
-                try {
-                    var result = JSON.parse(body);
-                    var course = getCourseFromResult(result, classNum);
-                    if (course.status === open) {
-                        //send email 
-                    }
-                    else {
-                        var listOfChanges = {};//{name: xxx original: new:}
-                        //no point in looking at all the various fields for now. Only compare ones that will likely change ie. units, status (NOT THE NUMBER IN THE WAITLIST!!!), prof, time, room. Things that might change whether person wants to take class or not so as to 
-                        if (course.acronym) { }
-
-                        //ALSO!!!! TO MAKE THIS BETTER, make methods for turning each response, result, ... into a course. DO NOT turn turn entire flow into method. That actually just makes things more confusing, I feel.
-                    }
-                }
-                catch (err) {
-                    console.log(err.message);
-                }
-
-
-            });
-        });
-    }
-    
-});
-
-
-
-
-//-----------------------------------------------
-
 
 
 
