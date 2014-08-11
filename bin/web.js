@@ -16,12 +16,12 @@ var sendOpenEmail = function(email) {
     var message = {
         "html": "<p>Your class is open!</p>",
         "text": "",
-        "subject": "example subject",
+        "subject": "Your class is open!",
         "from_email": "HoosClass@gmail.com",
         "from_name": "HoosClass",
         "to": [{
             "email": email,
-            "name": "fake email name",
+            "name": "HoosClass",
             "type": "to"
         }],
         "important": true,
@@ -62,7 +62,7 @@ var sendUpdateEmail = function(email, updates) {
         "from_name": "HoosClass",
         "to": [{
             "email": email,
-            "name": "fake email name",
+            "name": "HoosClass",
             "type": "to"
         }],
         "important": true,
@@ -203,7 +203,7 @@ pg.connect(conString, function(err, client) {
         //res.send(err.message);
 
     } else {
-        console.log(client);
+        //console.log(client);
         var q = "select * from alerts where done=false";
         var query = client.query(q);
         query.on('row', function(row) {
