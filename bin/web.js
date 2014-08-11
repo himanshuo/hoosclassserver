@@ -174,6 +174,7 @@ function getCourseFromSmallPage(result, classNum) {
         course.name = name;
         course.number = classNum;
         course.status = statusCode;
+        console.log(course.professor);
         return course;
     } catch (err) {
         res.send(err.message);
@@ -198,7 +199,7 @@ function dostuff() {
     var pg = require('pg');
     var conString = process.env.DATABASE_URL;
     pg.connect(conString, function(err, client) {
-        console.log("um");
+        
         if (err) {
             console.log("!!!!!!!!!!!!!!!!!!" + err.message);
             //res.send(err.message);
@@ -242,9 +243,9 @@ function dostuff() {
                             }
                             if (course.units != row.units) {
                                 listOfChanges.put({
-                                    name: "timing",
-                                    originalValue: row.timing,
-                                    newValue: course.timing
+                                    name: "units",
+                                    originalValue: row.units,
+                                    newValue: course.units
                                 });
                             }
                             if (listOfChanges.length > 0) {
