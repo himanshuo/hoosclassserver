@@ -327,7 +327,7 @@ function dostuff() {
                         if (course.status === "o") {
                             sendOpenEmail(row.email);
                         } else {
-                            var listOfChanges = {}; //{name: xxx original: new:}
+                            var listOfChanges = []; //{name: xxx original: new:}
                             //no point in looking at all the various fields for now. Only compare ones that will likely change ie. units, status (NOT THE NUMBER IN THE WAITLIST!!!), prof, time, room. Things that might change whether person wants to take class or not so as to 
 
                             if (course.professor != row.professor) {
