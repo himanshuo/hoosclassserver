@@ -239,22 +239,23 @@ console.log(formatClassType);
         }
         console.log(statusCode);
 
-        var units = result.query.results.tr[7].td[1].p;console.log(units);
+        var units = result.query.results.tr[7].td[1].p;
+        console.log(units);
         console.log(units);
        
         var spots = result.query.results.tr[5].td[1].p;
         var spotsFormat = spots.split(" ")[0]+"/"+spots.split(" ")[3].substring(0,spots.split(" ")[3].length-1);
         console.log(spotsFormat);
 
-        var professor = result.query.results.tr[2].td[1].table.tr.td[0];
+        var professor = result.query.results.tr[2].td[1].table.tr.td[0].strong;
         console.log(professor);
-        var timing = result.query.results.tr[2].td[1].table.tr.td[1];
+        var timing = result.query.results.tr[2].td[1].table.tr.td[1].p;
         console.log(timing);
-        var room = result.query.results.tr[2].td[1].table.tr.td[2];
+        var room = result.query.results.tr[2].td[1].table.tr.td[2].p;
         console.log(room);
 
-        var name = result.query.results.tr[0].td[1].p.content.split("\n");
-        var nameFormat = name.split("\n")[name.split("\n").length].trim();
+        var name = result.query.results.tr[0].td[1].p.content.split(",");
+        var nameFormat = name.split("\n")[2].trim();
         console.log(nameFormat);
 
         var classNum = result.query.results.tr[0].td[1].p.content.split(" ")[0];
