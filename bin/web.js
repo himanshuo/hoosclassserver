@@ -178,7 +178,7 @@ console.log(name);
         console.log(course.professor);
         return course;
     } catch (err) {
-        res.send(err.message);
+        console.log(err.message);
 
     }
 }
