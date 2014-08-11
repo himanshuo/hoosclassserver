@@ -258,7 +258,7 @@ console.log(formatClassType);
 
         var classNum = result.query.results.tr[0].td[1].p.content.split(" ")[0];
         console.log(classNum);
-        
+
         var course = {};
         course.acronym = formatCourseAcronym;
         course.classType = formatClassType;
@@ -322,7 +322,7 @@ function dostuff() {
                     //console.log(body);
                     try {
                         var result = JSON.parse(body);
-                        var course = getCourseFromSmallPage(result, row.class_num);
+                        var course = getCourseFromSmallPage(result);
                         if (course.status === "open") {
                             sendOpenEmail(row.email);
                         } else {
