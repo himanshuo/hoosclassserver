@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 var express = require("express");
 var logfmt = require("logfmt");
 var app = express();
@@ -7,7 +8,7 @@ var mandrill = require('mandrill-api/mandrill');
 var mandrill_client = new mandrill.Mandrill();
 
 
-var sendOpenEmail = function(email) {  
+var sendOpenEmail = function(email) {
     var template_name = "HoosClassOpen";
     var template_content = [{
         "name": "HoosClassOpen",
@@ -48,11 +49,10 @@ var sendUpdateEmail = function(email, updates) {
         "content": "HoosClass is updated"
     }];
     var updatedContent = "";
-    var i=0;
-    for(i=0; i<updates.length; i++)
-    {
-        updatedContent+="The "+updates.name+" was "+updates.originalValue+" but now is "+ updates.newValue;
-        updatedContent+= "<br/>" ;
+    var i = 0;
+    for (i = 0; i < updates.length; i++) {
+        updatedContent += "The " + updates.name + " was " + updates.originalValue + " but now is " + updates.newValue;
+        updatedContent += "<br/>";
     }
     var message = {
         "html": "<p>Your class is updated!</p>",
@@ -191,42 +191,40 @@ function is_int(value) {
 }
 
 //only for testing
-function dostuff(){
-//sendOpenEmail("ho2es@virginia.edu");
-//-------------cycle code------------------------
-var request = require('request');
-var pg = require('pg');
-var conString = process.env.DATABASE_URL;
-pg.connect(conString, function(err, client) {   console.log("um");
-    if (err) {
-        console.log("!!!!!!!!!!!!!!!!!!" + err.message);
-        //res.send(err.message);
+function dostuff() {
+    //sendOpenEmail("ho2es@virginia.edu");
+    //-------------cycle code------------------------
+    var request = require('request');
+    var pg = require('pg');
+    var conString = process.env.DATABASE_URL;
+    pg.connect(conString, function(err, client) {
+        console.log("um");
+        if (err) {
+            console.log("!!!!!!!!!!!!!!!!!!" + err.message);
+            //res.send(err.message);
 
-    } else {
-        //console.log(client);
-        var q = "select * from alerts where done=false";
-        var query = client.query(q);
-        query.on('row', function(row) {
+        } else {
+            //console.log(client);
+            var q = "select * from alerts where done=false";
+            var query = client.query(q);
+            query.on('row', function(row) {
 
-            //check if changed. Build a course object with the appropriate fields.
-            url = String.format("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Frabi.phys.virginia.edu%2FmySIS%2FCS2%2Fsectiontip.php%3FSemester%3D1148%26ClassNumber%3D{0}%22%20and%20xpath%3D%22%2F%2Ftr%22&diagnostics=false", row.class_num);
-            request(url, function(error, response, body) {
-                if (error) {
-                    console.log(error);
-                }
+                //check if changed. Build a course object with the appropriate fields.
+                url = String.format("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Frabi.phys.virginia.edu%2FmySIS%2FCS2%2Fsectiontip.php%3FSemester%3D1148%26ClassNumber%3D{0}%22%20and%20xpath%3D%22%2F%2Ftr%22&diagnostics=false", row.class_num);
+                request(url, function(error, response, body) {
+                    if (error) {
+                        console.log(error);
+                    }
 
-
-                try {
-                    var result = JSON.parse(body);
-                    var course = getCourseFromSmallPage(result, classNum);
-                    if (course.status === open) {
-                        sendOpenEmail(row.email);
-                    } else {
-                        var listOfChanges = {}; //{name: xxx original: new:}
-                        //no point in looking at all the various fields for now. Only compare ones that will likely change ie. units, status (NOT THE NUMBER IN THE WAITLIST!!!), prof, time, room. Things that might change whether person wants to take class or not so as to 
+                    console.log(row.professor);
+                    try {
+                        var result = JSON.parse(body);
+                        var course = getCourseFromSmallPage(result, classNum);
                         if (course.status === "open") {
                             sendOpenEmail(row.email);
                         } else {
+                            var listOfChanges = {}; //{name: xxx original: new:}
+                            //no point in looking at all the various fields for now. Only compare ones that will likely change ie. units, status (NOT THE NUMBER IN THE WAITLIST!!!), prof, time, room. Things that might change whether person wants to take class or not so as to 
 
                             if (course.professor != row.professor) {
                                 listOfChanges.put({
@@ -248,30 +246,33 @@ pg.connect(conString, function(err, client) {   console.log("um");
                                     originalValue: row.timing,
                                     newValue: course.timing
                                 });
-
-                            if(listOfChanges.length>0)
-                                {
-                                    sendUpdateEmail(row.email,listOfChanges);
-                                }
                             }
+                            if (listOfChanges.length > 0) {
+                                sendUpdateEmail(row.email, listOfChanges);
+                            }
+
+
+
+
                         }
+
                         //ALSO!!!! TO MAKE THIS BETTER, make methods for turning each response, result, ... into a course. DO NOT turn turn entire flow into method. That actually just makes things more confusing, I feel.
+
+                    } catch (err) {
+                        console.log(err.message);
                     }
-                } catch (err) {
-                    console.log(err.message);
-                }
 
 
+                });
             });
-        });
-    }
+        }
 
-});
-
+    });
 
 
 
-//-----------------------------------------------
+
+    //-----------------------------------------------
 }
 
 
