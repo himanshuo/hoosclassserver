@@ -219,8 +219,8 @@ function dostuff() {
                     }
 
                     
-                    try {
-                        var result = JSON.parse(body);console.log(body);
+                    try {console.log(body);
+                        var result = JSON.parse(body);
                         var course = getCourseFromSmallPage(result, classNum);
                         if (course.status === "open") {
                             sendOpenEmail(row.email);
@@ -261,7 +261,7 @@ function dostuff() {
                         //ALSO!!!! TO MAKE THIS BETTER, make methods for turning each response, result, ... into a course. DO NOT turn turn entire flow into method. That actually just makes things more confusing, I feel.
 
                     } catch (err) {
-                        console.log(err.message);
+                        console.log(err.message+" which is at checking diff and sending email");
                     }
 
 
