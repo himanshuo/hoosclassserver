@@ -3,28 +3,22 @@ var express = require("express");
 var logfmt = require("logfmt");
 var app = express();
 app.use(logfmt.requestLogger());
-
-
-
-var sendEmail = function(email) {
-    var mandrill = require('mandrill-api/mandrill');
-    //console.log("key is:"+MANDRILL_APIKEY);
+var mandrill = require('mandrill-api/mandrill');
 var mandrill_client = new mandrill.Mandrill();
 
-    mandrill_client.users.info(function(info) {
-        console.log('Reputation: ' + info.reputation + ', Hourly Quota: ' + info.hourly_quota);
-    });
+
+var sendOpenEmail = function(email) {  
     var template_name = "HoosClassOpen";
     var template_content = [{
-        "name": "HoosClass",
-        "content": "example content"
+        "name": "HoosClassOpen",
+        "content": "HoosClass is Open"
     }];
     var message = {
-        "html": "<p>Example HTML content</p>",
-        "text": "Example text content",
+        "html": "<p>Your class is open!</p>",
+        "text": "",
         "subject": "example subject",
         "from_email": "HoosClass@gmail.com",
-        "from_name": "Example Name",
+        "from_name": "HoosClass",
         "to": [{
             "email": email,
             "name": "fake email name",
@@ -33,9 +27,47 @@ var mandrill_client = new mandrill.Mandrill();
         "important": true,
         "track_opens": true
     };
-        var async = false;
-    var ip_pool = "Main Pool";
-    var send_at = "example send_at";
+    mandrill_client.messages.sendTemplate({
+        "template_name": template_name,
+        "template_content": template_content,
+        "message": message
+    }, function(result) {
+        console.log(result);
+    }, function(e) {
+        // Mandrill returns the error as an object with name and message keys
+        console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+        // A mandrill error occurred: Unknown_Subaccount - No subaccount exists with the id 'customer-123'
+    });
+
+};
+
+var sendUpdateEmail = function(email, updates) {
+    var template_name = "HoosClassUpdate";
+    var template_content = [{
+        "name": "HoosClassUpdate",
+        "content": "HoosClass is updated"
+    }];
+    var updatedContent = "";
+    var i=0;
+    for(i=0; i<updates.length; i++)
+    {
+        updatedContent+="The "+updates.name+" was "+updates.originalValue+" but now is "+ updates.newValue;
+        updatedContent+= "<br/>" ;
+    }
+    var message = {
+        "html": "<p>Your class is updated!</p>",
+        "text": "",
+        "subject": "Your class has been updated",
+        "from_email": "HoosClass@gmail.com",
+        "from_name": "HoosClass",
+        "to": [{
+            "email": email,
+            "name": "fake email name",
+            "type": "to"
+        }],
+        "important": true,
+        "track_opens": true
+    };
     mandrill_client.messages.sendTemplate({
         "template_name": template_name,
         "template_content": template_content,
@@ -160,7 +192,7 @@ function is_int(value) {
 
 //only for testing
 function dostuff(){
-sendEmail("ho2es@virginia.edu");
+sendOpenEmail("ho2es@virginia.edu");
 //-------------cycle code------------------------
 var request = require('request');
 var pg = require('pg');
@@ -188,12 +220,12 @@ pg.connect(conString, function(err, client) {
                     var result = JSON.parse(body);
                     var course = getCourseFromSmallPage(result, classNum);
                     if (course.status === open) {
-                        sendEmail(row.email);
+                        sendOpenEmail(row.email);
                     } else {
                         var listOfChanges = {}; //{name: xxx original: new:}
                         //no point in looking at all the various fields for now. Only compare ones that will likely change ie. units, status (NOT THE NUMBER IN THE WAITLIST!!!), prof, time, room. Things that might change whether person wants to take class or not so as to 
                         if (course.status === "open") {
-                            sendEmail(row.email);
+                            sendOpenEmail(row.email);
                         } else {
 
                             if (course.professor != row.professor) {
@@ -219,7 +251,7 @@ pg.connect(conString, function(err, client) {
 
                             if(listOfChanges.length>0)
                                 {
-                                    sendEmail(row.email);
+                                    sendUpdateEmail(row.email,listOfChanges);
                                 }
                             }
                         }
