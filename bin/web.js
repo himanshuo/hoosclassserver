@@ -91,7 +91,7 @@ if (!String.format) {
     };
 }
 
-function getCourseFromSmallPage(result, classNum) {
+function getCourseFromLargePage(result, classNum) {
     try {
         var formatCourseAcronym = result.query.results.tr.class.split(" ")[2];
         console.log(formatCourseAcronym);
@@ -183,6 +183,107 @@ console.log(name);
     }
 }
 
+function getCourseFromSmallPage(result){
+    try{
+        var toAddDueToWaitListInfo=0;
+        var formatCourseAcronym = result.query.results.tr[0].td[1].p.content.split(" ")[1] + " " +result.query.results.tr[0].td[1].p.content.split(" ")[2];
+        console.log(formatCourseAcronym);
+        var classType = result.query.results.tr[0].td[1].p.content.split(" ")[5].substring(1,result.query.results.tr[0].td[1].p.content.split(" ")[5].length-1);
+        console.log(classType);
+        var formatClassType = 10;
+        if (classType === "Lecture") {
+            formatClassType = 1;
+        }
+        if (classType === "Discussion") {
+            formatClassType = 2;
+        }
+        if (classType === "Seminar") {
+            formatClassType = 3;
+        }
+        if (classType === "Laboratory") {
+            formatClassType = 4;
+        }
+        if (classType === "Independent Study") {
+            formatClassType = 5;
+        }
+        if (classType === "Practicum") {
+            formatClassType = 6;
+        }
+        if (classType === "Workshop") {
+            formatClassType = 7;
+        }
+        if (classType === "Studio") {
+            formatClassType = 8;
+        }
+        if (classType === "Clinical") {
+            formatClassType = 9;
+        }
+
+console.log(formatClassType);
+        var status = result.query.results.tr[6].td[1].p.split(",")[0];
+
+        console.log(status);
+        var waitlist = 0;
+        var statusCode = "w";
+        if (status.substring(0, 4) === "Wait") {
+            var temp = status.split(" ")[2];
+            //waitlist = temp.substring(1, temp.length - 1);
+            statusCode = "w";
+            toAddDueToWaitListInfo = 3;
+
+        } else if (status === "Closed") {
+            statusCode = "c";
+        } else if (status === "Open") {
+            statusCode = "o";
+
+        }console.log(statusCode);
+
+        var units = result.query.results.tr[7+toAddDueToWaitListInfo].td[1].p;console.log(units);
+        console.log(units);
+       
+        var spots = result.query.results.tr[5+toAddDueToWaitListInfo].td[1].p;
+        var spotsFormat = spots.split(" ")[0]+"/"+spots.split(" ")[3].substring(0,spots.split(" ")[3].length-1);
+        console.log(spotsFormat);
+
+        var professor = result.query.results.tr[2].td[1].table.tr.td[0];
+        console.log(professor);
+        var timing = result.query.results.tr[2].td[1].table.tr.td[1];
+        console.log(timing);
+        var room = result.query.results.tr[2].td[1].table.tr.td[2];
+        console.log(room);
+
+        var name = result.query.results.tr[0].td[1].p.content.split("\n");
+        var nameFormat = name.split("\n")[name.split("\n").length].trim();
+        console.log(nameFormat);
+
+        var classNum = result.query.results.tr[0].td[1].p.content.split(" ")[0];
+        console.log(classNum);
+        
+        var course = {};
+        course.acronym = formatCourseAcronym;
+        course.classType = formatClassType;
+        course.units = units;
+        course.waitlist = waitlist;
+        course.spots = spotsFormat;
+        course.professor = professor;
+        course.timing = timing;
+        course.room = room;
+        course.name = nameFormat;
+        course.number = classNum;
+        course.status = statusCode;
+        return course;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+}
+
+
+if (!String.prototype.trim) {
+  String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g, '');};
+
+}
 
 function is_int(value) {
     if ((parseFloat(value) == parseInt(value)) && !isNaN(value)) {
