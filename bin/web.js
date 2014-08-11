@@ -326,6 +326,16 @@ function dostuff() {
                         var course = getCourseFromSmallPage(result);
                         if (course.status === "o") {
                             sendOpenEmail(row.email);
+                            var updateQuery = String.format("update alerts set professor='{0}', timing='{1}', units={2}, done=true, last_update=now()  where id={3}",course.professor, course.timing, course.units, row.id);
+                                try{
+                                    client.query(updateQuery, function(u_err, u_res){
+                                        console.log("update failed due to " +u_err);
+                                    });
+                                    
+                                }
+                                catch(err){
+                                    console.log(err);
+                                }
                         } else {
                             var listOfChanges = []; //{name: xxx original: new:}
                             //no point in looking at all the various fields for now. Only compare ones that will likely change ie. units, status (NOT THE NUMBER IN THE WAITLIST!!!), prof, time, room. Things that might change whether person wants to take class or not so as to 
@@ -355,7 +365,7 @@ function dostuff() {
 
                                 sendUpdateEmail(row.email, listOfChanges);
                                 //update these values in database
-                                var updateQuery = String.format("update alerts set professor='{0}', timing='{1}', units={2}, done=true, last_update=now()  where id={3}",course.professor, course.timing, course.units, row.id);
+                                var updateQuery = String.format("update alerts set professor='{0}', timing='{1}', units={2}, last_update=now()  where id={3}",course.professor, course.timing, course.units, row.id);
                                 try{console.log("called");
                                     client.query(updateQuery, function(u_err, u_res){
                                         console.log("update failed due to " +u_err);
