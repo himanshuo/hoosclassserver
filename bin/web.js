@@ -269,7 +269,7 @@ console.log(formatClassType);
         course.professor = professor;
         course.timing = timing;
         course.room = room;
-        course.name = nameFormat;
+        course.name = name;
         course.number = classNum;
         course.status = statusCode;
         return course;
