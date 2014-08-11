@@ -255,7 +255,7 @@ console.log(formatClassType);
         console.log(room);
 
         var name = result.query.results.tr[0].td[1].p.content.split("\n")[2].trim();
-        console.log(nameFormat);
+        console.log(name);
 
         var classNum = result.query.results.tr[0].td[1].p.content.split(" ")[0];
         console.log(classNum);
