@@ -215,7 +215,7 @@ function dostuff() {
                 url = String.format("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Frabi.phys.virginia.edu%2FmySIS%2FCS2%2Fsectiontip.php%3FSemester%3D1148%26ClassNumber%3D{0}%22%20and%20xpath%3D%22%2F%2Ftr%22&diagnostics=false", row.class_num);
                 request(url, function(error, response, body) {
                     if (error) {
-                        console.log(error);
+                        console.log(error+" is the error message at request");
                     }
 
                     
