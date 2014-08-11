@@ -7,9 +7,11 @@ app.use(logfmt.requestLogger());
 
 
 var sendEmail = function(email) {
-    var Mandrill = require('mandrill-api/mandrill');
-    var m = new mandrill.Mandrill();
-    m.users.info(function(info) {
+    var mandrill = require('mandrill-api/mandrill');
+    //console.log("key is:"+MANDRILL_APIKEY);
+var mandrill_client = new mandrill.Mandrill();
+
+    mandrill_client.users.info(function(info) {
         console.log('Reputation: ' + info.reputation + ', Hourly Quota: ' + info.hourly_quota);
     });
     var template_name = "HoosClassOpen";
@@ -21,7 +23,7 @@ var sendEmail = function(email) {
         "html": "<p>Example HTML content</p>",
         "text": "Example text content",
         "subject": "example subject",
-        "from_email": "HoosClass.gmail.com",
+        "from_email": "HoosClass@gmail.com",
         "from_name": "Example Name",
         "to": [{
             "email": email,
@@ -34,7 +36,7 @@ var sendEmail = function(email) {
         var async = false;
     var ip_pool = "Main Pool";
     var send_at = "example send_at";
-    m.messages.sendTemplate({
+    mandrill_client.messages.sendTemplate({
         "template_name": template_name,
         "template_content": template_content,
         "message": message
@@ -158,6 +160,7 @@ function is_int(value) {
 
 //only for testing
 function dostuff(){
+sendEmail("ho2es@virginia.edu");
 //-------------cycle code------------------------
 var request = require('request');
 var pg = require('pg');
