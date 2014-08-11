@@ -185,10 +185,10 @@ console.log(name);
 
 function getCourseFromSmallPage(result){
     try{
-        var toAddDueToWaitListInfo=0;
+        
         var formatCourseAcronym = result.query.results.tr[0].td[1].p.content.split(" ")[1] + " " +result.query.results.tr[0].td[1].p.content.split(" ")[2];
         console.log(formatCourseAcronym);
-        var classType = result.query.results.tr[0].td[1].p.content.split(" ")[5].substring(1,result.query.results.tr[0].td[1].p.content.split(" ")[5].length-1);
+        var classType = result.query.results.tr[0].td[1].p.content.split(" ")[5].substring(1,result.query.results.tr[0].td[1].p.content.split(" ")[5].length-2);
         console.log(classType);
         var formatClassType = 10;
         if (classType === "Lecture") {
@@ -229,19 +229,20 @@ console.log(formatClassType);
             var temp = status.split(" ")[2];
             //waitlist = temp.substring(1, temp.length - 1);
             statusCode = "w";
-            toAddDueToWaitListInfo = 3;
+            
 
         } else if (status === "Closed") {
             statusCode = "c";
         } else if (status === "Open") {
             statusCode = "o";
 
-        }console.log(statusCode);
+        }
+        console.log(statusCode);
 
-        var units = result.query.results.tr[7+toAddDueToWaitListInfo].td[1].p;console.log(units);
+        var units = result.query.results.tr[7].td[1].p;console.log(units);
         console.log(units);
        
-        var spots = result.query.results.tr[5+toAddDueToWaitListInfo].td[1].p;
+        var spots = result.query.results.tr[5].td[1].p;
         var spotsFormat = spots.split(" ")[0]+"/"+spots.split(" ")[3].substring(0,spots.split(" ")[3].length-1);
         console.log(spotsFormat);
 
