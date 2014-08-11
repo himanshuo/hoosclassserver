@@ -355,7 +355,7 @@ function dostuff() {
 
                                 sendUpdateEmail(row.email, listOfChanges);
                                 //update these values in database
-                                var updateQuery = String.format("update alerts set professor='{0}', timing='{1}', units={2}",course.professor, course.timing, course.units);
+                                var updateQuery = String.format("update alerts set professor='{0}', timing='{1}', units={2}, done=true, last_update=now()  where id={3}",course.professor, course.timing, course.units, row.id);
                                 try{console.log("called");
                                     client.query(updateQuery, function(u_err, u_res){
                                         console.log("update failed due to " +u_err);
