@@ -294,7 +294,7 @@ function is_int(value) {
     }
 }
 
-//only for testing
+//using as function only for testing
 function dostuff() {
     //sendOpenEmail("ho2es@virginia.edu");
     //-------------cycle code------------------------
@@ -352,12 +352,15 @@ function dostuff() {
                                 });
                             }
                             if (listOfChanges.length > 0) {
-                                
-                                sendUpdateEmail(row.email, listOfChanges);console.log("called");
+
+                                sendUpdateEmail(row.email, listOfChanges);
                                 //update these values in database
                                 var updateQuery = String.format("update alerts set professor={0}, timing={1}, units={2}",course.professor, course.timing, course.units);
-                                try{
-                                    client.query(updateQuery);
+                                try{console.log("called");
+                                    client.query(updateQuery, function(u_err, u_res){
+                                        console.log("update failed due to " +u_err);
+                                    });
+                                    console.log("called");
                                 }
                                 catch(err){
                                     console.log(err);
