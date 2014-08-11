@@ -192,12 +192,12 @@ function is_int(value) {
 
 //only for testing
 function dostuff(){
-sendOpenEmail("ho2es@virginia.edu");
+//sendOpenEmail("ho2es@virginia.edu");
 //-------------cycle code------------------------
 var request = require('request');
 var pg = require('pg');
 var conString = process.env.DATABASE_URL;
-pg.connect(conString, function(err, client) {
+pg.connect(conString, function(err, client) {   console.log("um");
     if (err) {
         console.log("!!!!!!!!!!!!!!!!!!" + err.message);
         //res.send(err.message);
