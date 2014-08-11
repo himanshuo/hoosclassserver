@@ -254,7 +254,7 @@ console.log(formatClassType);
         var room = result.query.results.tr[2].td[1].table.tr.td[2].p;
         console.log(room);
 
-        var name = result.query.results.tr[0].td[1].p.content.split(",")[2].trim();
+        var name = result.query.results.tr[0].td[1].p.content.split("\n")[2].trim();
         console.log(nameFormat);
 
         var classNum = result.query.results.tr[0].td[1].p.content.split(" ")[0];
@@ -324,7 +324,7 @@ function dostuff() {
                     try {
                         var result = JSON.parse(body);
                         var course = getCourseFromSmallPage(result);
-                        if (course.status === "open") {
+                        if (course.status === "o") {
                             sendOpenEmail(row.email);
                         } else {
                             var listOfChanges = {}; //{name: xxx original: new:}
