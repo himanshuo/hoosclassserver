@@ -352,8 +352,8 @@ function dostuff() {
                                 });
                             }
                             if (listOfChanges.length > 0) {
-                                console.log("called");
-                                sendUpdateEmail(row.email, listOfChanges);
+                                
+                                sendUpdateEmail(row.email, listOfChanges);console.log("called");
                                 //update these values in database
                                 var updateQuery = String.format("update alerts set professor={0}, timing={1}, units={2}",course.professor, course.timing, course.units);
                                 try{
