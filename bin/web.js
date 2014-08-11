@@ -218,8 +218,8 @@ function dostuff() {
                         console.log(error+" is the error message at request");
                     }
 
-                    console.log(body);
-                    try {
+                    //console.log(body);
+                    try {console.log(body);
                         var result = JSON.parse(body);
                         var course = getCourseFromSmallPage(result, classNum);
                         if (course.status === "open") {
