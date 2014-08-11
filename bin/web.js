@@ -94,7 +94,7 @@ if (!String.format) {
 function getCourseFromSmallPage(result, classNum) {
     try {
         var formatCourseAcronym = result.query.results.tr.class.split(" ")[2];
-        //alert(formatCourseAcronym);
+        console.log(formatCourseAcronym);
         if (is_int(formatCourseAcronym[2])) {
             formatCourseAcronym = formatCourseAcronym.substring(0, 2) + " " + formatCourseAcronym.substring(2, formatCourseAcronym.length);
         } else if (is_int(formatCourseAcronym[3])) {
@@ -104,7 +104,8 @@ function getCourseFromSmallPage(result, classNum) {
             formatCourseAcronym = formatCourseAcronym.substring(0, 4) + " " + formatCourseAcronym.substring(4, formatCourseAcronym.length);
 
         }
-        var classType = result.query.results.tr.td[2].strong;
+        console.log(formatCourseAcronym);
+        var classType = result.query.results.tr.td[2].strong;console.log(classType);
         var formatClassType = 10;
         if (classType === "Lecture") {
             formatClassType = 1;
@@ -134,14 +135,14 @@ function getCourseFromSmallPage(result, classNum) {
             formatClassType = 9;
         }
 
-
-        var units = result.query.results.tr.td[2].p.split(" ");
+console.log(formatClassType);
+        var units = result.query.results.tr.td[2].p.split(" ");console.log(units);
         var formatUnits = units[0].substring(1, units[0].length);
         if (units.length === 4) {
 
             formatUnits = formatUnits + " - " + units[2];
-        }
-        var status = result.query.results.tr.td[3].p.content;
+        }console.log(formatUnits);
+        var status = result.query.results.tr.td[3].p.content;console.log(status);
         var waitlist = 0;
         var statusCode = "w";
         if (status.substring(0, 4) === "Wait") {
@@ -154,14 +155,14 @@ function getCourseFromSmallPage(result, classNum) {
         } else if (status === "Open") {
             statusCode = "o";
 
-        }
-        var spots = result.query.results.tr.td[4].a.content;
-        var professor = result.query.results.tr.td[5].strong.span.content;
-        var timing = result.query.results.tr.td[6].p;
-        var room = result.query.results.tr.td[7].p;
+        }console.log(statusCode);
+        var spots = result.query.results.tr.td[4].a.content;console.log(spots);
+        var professor = result.query.results.tr.td[5].strong.span.content;console.log(professor);
+        var timing = result.query.results.tr.td[6].p;console.log(timing);
+        var room = result.query.results.tr.td[7].p;console.log(room);
 
         var name = result.query.results.td.p;
-
+console.log(name);
         var course = {};
         course.acronym = formatCourseAcronym;
         course.classType = formatClassType;
@@ -217,7 +218,7 @@ function dostuff() {
                         console.log(error);
                     }
 
-                    console.log(row.professor);
+                    
                     try {
                         var result = JSON.parse(body);
                         var course = getCourseFromSmallPage(result, classNum);
