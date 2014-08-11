@@ -4,7 +4,7 @@ heroku pg:psql   --psql terminal client for postgres
 
 
 
-
+--could be seperate tables for each, but not enough variety for that. Plus it makes the code messier.
 current table: 
 
 CREATE TABLE Alerts 
