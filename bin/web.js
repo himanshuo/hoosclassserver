@@ -220,7 +220,7 @@ function dostuff() {
 
                     
                     try {
-                        var result = JSON.parse(body);
+                        var result = JSON.parse(body);console.log(body);
                         var course = getCourseFromSmallPage(result, classNum);
                         if (course.status === "open") {
                             sendOpenEmail(row.email);
