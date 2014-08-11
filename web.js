@@ -155,7 +155,8 @@ function is_int(value) {
     }
 }
 
-
+//only for testing
+function dostuff(){
 //-------------cycle code------------------------
 var request = require('request');
 var pg = require('pg');
@@ -163,7 +164,7 @@ var conString = process.env.DATABASE_URL;
 pg.connect(conString, function(err, client) {
     if (err) {
         console.log("!!!!!!!!!!!!!!!!!!" + err.message);
-        res.send(err.message);
+        //res.send(err.message);
 
     } else {
         console.log(client);
@@ -235,11 +236,12 @@ pg.connect(conString, function(err, client) {
 
 
 //-----------------------------------------------
-
+}
 
 
 
 var port = Number(process.env.PORT || 5000);
 app.listen(port, function() {
     console.log("Listening on " + port);
+    dostuff();
 });
