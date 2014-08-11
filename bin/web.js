@@ -331,21 +331,21 @@ function dostuff() {
                             //no point in looking at all the various fields for now. Only compare ones that will likely change ie. units, status (NOT THE NUMBER IN THE WAITLIST!!!), prof, time, room. Things that might change whether person wants to take class or not so as to 
 
                             if (course.professor != row.professor) {
-                                listOfChanges.put({
+                                listOfChanges.push({
                                     name: "professor",
                                     originalValue: row.professor,
                                     newValue: course.professor
                                 });
                             }
                             if (course.timing != row.timing) {
-                                listOfChanges.put({
+                                listOfChanges.push({
                                     name: "timing",
                                     originalValue: row.timing,
                                     newValue: course.timing
                                 });
                             }
                             if (course.units != row.units) {
-                                listOfChanges.put({
+                                listOfChanges.push({
                                     name: "units",
                                     originalValue: row.units,
                                     newValue: course.units
@@ -353,6 +353,9 @@ function dostuff() {
                             }
                             if (listOfChanges.length > 0) {
                                 sendUpdateEmail(row.email, listOfChanges);
+                                //update these values in database
+                                var updateQuery = String.format("update alerts set professor={0}, timing={1}, units={2}",course.professor, course.timing, course.units);
+                                client.query(updateQuery);
                             }
 
 
